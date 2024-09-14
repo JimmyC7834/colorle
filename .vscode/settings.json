@@ -1,0 +1,4 @@
+{
+  "appService.defaultWebAppToDeploy": "undefined/subscriptions/ef521068-d969-4e85-8c5c-3044cc294a54/resourceGroups/colorle/providers/Microsoft.Web/sites/colorle",
+  "appService.deploySubpath": "./out"
+}

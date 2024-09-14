@@ -115,9 +115,7 @@ const HSBColorPicker: React.FC<Props> = ({color, onChange}) => {
     setHSB({...hsb, b: brightness})
     onChange && onChange(hsbToHex(hsb));
   };
-
-  const hexColor = hsbToHex(hsb);
-
+  
   const hueGradient = `linear-gradient(to right, red, yellow, lime, cyan, blue, magenta, red)`;
   const saturationGradient = `linear-gradient(to right, hsl(${hsb.h}, 0%, ${hsb.b}%), hsl(${hsb.h}, 100%, ${hsb.b}%))`;
   const brightnessGradient = `linear-gradient(to right, black, hsl(${hsb.h}, ${hsb.s}%, 50%), white)`;
