@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import tinycolor from "tinycolor2";
 import Realistic from "react-canvas-confetti/dist/presets/realistic";
 import {Properties} from "csstype";
+import {Leaderboard} from "@/app/Leaderboard";
 
 export default function Home() {
   const randomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`;
@@ -12,6 +13,7 @@ export default function Home() {
   const [quizColor, setQuizColor] = useState(randomColor());
   const [color, setColor] = useState(randomColor());
   const [highestAcc, setHighestAcc] = useState("0");
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
 
   const maxDiff = ((255 ** 2) * 3) ** .5;
@@ -64,13 +66,24 @@ export default function Home() {
     setQuizColor(randomColor);
   };
 
+  const roundedButton = (label: string, callback: (() => void)) =>
+    <button
+      onClick={callback}
+      className="w-40 rounded-full bg-pink-500 hover:bg-pink-400 text-white font-bold py-2 px-4 border-b-4 border-pink-700 hover:border-pink-500">
+      {label}
+    </button>;
+
   return (
     <div
       className="duration-200 flex flex-col items-center justify-items-center min-h-screen p-5 font-[family-name:var(--font-geist-sans)]">
-      {showConfetti && <Realistic autorun={{ speed: 50, duration: confettiDuration}} />}
-      <header>
-        <div className="text-3xl text-gray-800 text-center bg-white p-3 rounded-xl font-black drop-shadow-lg">
-          Highest: {highestAcc}%
+      {showConfetti && <Realistic autorun={{speed: 50, duration: confettiDuration}}/>}
+      {showLeaderboard && <Leaderboard onBackClicked={() => setShowLeaderboard(false)}/>}
+      <header className="flex w-full">
+        <div className="flex flex-col gap-5">
+          <div className="text-3xl text-gray-800 text-center bg-white p-3 rounded-xl font-black drop-shadow-lg">
+            Highest: {highestAcc}%
+          </div>
+          {roundedButton("Leaderboard", () => setShowLeaderboard(true))}
         </div>
       </header>
       <main className="flex-1 items-center sm:items-start">
@@ -78,16 +91,8 @@ export default function Home() {
         <div style={quizColorContainer}/>
       </main>
       <div className="flex m-5 gap-5">
-        <button
-          onClick={() => setShowConfetti(true)}
-          className="w-32 rounded-full bg-pink-500 hover:bg-pink-400 text-white font-bold py-2 px-4 border-b-4 border-pink-700 hover:border-pink-500">
-          Skip
-        </button>
-        <button
-          onClick={onSubmit}
-          className="w-32 rounded-full bg-pink-500 hover:bg-pink-400 text-white font-bold py-2 px-4 border-b-4 border-pink-700 hover:border-pink-500">
-          Submit
-        </button>
+        {roundedButton("Skip", () => setQuizColor(randomColor))}
+        {roundedButton("Submit", onSubmit)}
       </div>
       <footer
         className="flex flex-wrap gap-5 items-center justify-center p-5 rounded-2xl bg-white drop-shadow-xl">
